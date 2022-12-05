@@ -43,6 +43,7 @@ function skorArtirici() {
    return skor++;
   }
 }
+//skor1 memeoryde daha sonra durmuyor sayıyor ve bırakıyor.skor1!e dışarıdan ulaşamayız.Kullandıktan sonra tekrar kullanmaya ve tutmaya gerek yoksa skor1
 
 const skor1 = skorArtirici();
 
@@ -53,6 +54,8 @@ function skor2() {
   return skor++;
 }
 
+//closure yapısı,Fonksiyonun içinde değişken olmadığında dışarıda değişkeni alıyor.SKOR2 closure'dır.
+//2. örnekte sadece skor değişkeni döndü.Skor'un farklı fonksiyonlarda da kullanılmasını istiyorsak skor2 daha mantıklı.
 
 /* Görev 2: takimSkoru() 
 Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
@@ -64,9 +67,14 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru(takım){
+  let skor=Math.floor(Math.random()*(25-10+1)+10)
+    return skor;
 }
+
+//for(let i=0;i<100;i++){
+  //console.log(takimSkoru())
+
 
 
 
@@ -86,9 +94,26 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(callbackFunction,ceyrekSayisi){
+  let evSahibi=0;
+  let konukTakim=0;
+
+  for(let ceyrek=1;ceyrek<=ceyrekSayisi;ceyrek++){
+    evSahibi +=callbackFunction();
+    konukTakim +=callbackFunction();
+  }
+
+let finalSkor={}
+
+finalSkor.EvSahibi=evSahibi;
+finalSkor.KonukTakim=konukTakim;
+
+
+return finalSkor;
+
+
 }
+
 
 
 
@@ -107,10 +132,19 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   "KonukTakim": 12
 }
   */
+console.clear(
 
+)
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function periyotSkoru(callbackFunction) {
+ 
+
+  let score= {};
+  score.EvSahibi =callbackFunction();
+  score["KonukTakim"]=callbackFunction();
+
+return score;
+  
 
 }
 
@@ -145,9 +179,47 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ]
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
+console.clear();
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(periyotSkoru,takimSkoru,ceyrekSayisi) {
+  let EvSahibi=0;
+  let KonukTakim=0;
+  let skorlar=[];
+  
+  
+  for(let i=1;i<=ceyrekSayisi;i++){
+    let periyot=periyotSkoru(takimSkoru);
+    let periyotSonucu =i+". Periyot: Ev Sahibi "+periyot.EvSahibi +" - Konuk Takım" +periyot.KonukTakim;
+    EvSahibi +=periyot.EvSahibi;
+    KonukTakim +=periyot.KonukTakim;
+    skorlar.push(periyotSonucu);
+  }
+  let i=1
+  while(EvSahibi===KonukTakim){
+    let EvSahibiUzatma =takimSkoru();
+   let  KonukTakimUzatma =takimSkoru();
+   EvSahibi +=EvSahibiUzatma;
+   KonukTakim +=KonukTakimUzatma;
+
+  let uzatmaMetni= i+" . Uzatma: Ev Sahibi"+ EvSahibiUzatma +"- Konuk Takım " +KonukTakimUzatma;
+  skorlar.push(uzatmaMetni);
+  i++
+  }
+const macSonucu=`Maç sonucu :Ev Sahibi" + ${EvSahibiUzatma} -Konuk Takım ${KonukTakimUzatma}`;
+skorlar.push(macSonucu);
+return skorlar;
+  
+
+
+  }
+
+
+  console.log(skorTabelasi(periyotSkoru,takimSkoru,4))
+
+  
+
+  
+
 }
 
 
